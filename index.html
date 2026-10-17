@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SysDesign Studio — Senior Engineer System Design Interview Prep</title>
+  <meta name="description" content="Interactive study companion for system design interviews: the 5-step framework, Spotify / Booking.com / WhatsApp case studies, a capacity calculator, a timed mock-interview workbench and a trade-off quiz." />
+  <meta name="theme-color" content="#0b0f19" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">SD</div>
+      <div>
+        <div class="brand-title">SysDesign Senior Prep Studio</div>
+        <div class="brand-subtitle">
+          Based on <a href="https://www.youtube.com/watch?v=soTfFFIQQ8U" target="_blank" rel="noopener">Design Software Systems Like a Senior Engineer (freeCodeCamp / Hayk Simonyan)</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-btn active" role="tab" aria-selected="true" data-action="switchTab" data-args="blueprint" id="tab-btn-blueprint">1. 5×5 Blueprint</button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="casestudies" id="tab-btn-casestudies">2. Production Case Studies</button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="calculator" id="tab-btn-calculator">3. Capacity Calculator</button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="workbench" id="tab-btn-workbench">4. Mock Interview Workbench</button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="quiz" id="tab-btn-quiz">5. Trade-Off Arena & Quiz</button>
+    </nav>
+
+    <div class="progress-pill" title="Your interactive prep mastery score">
+      <span>Readiness: <strong id="mastery-pct" style="color: var(--text-primary);">8%</strong></span>
+      <div class="progress-bar-mini">
+        <div class="progress-bar-fill" id="mastery-bar" style="width: 8%;"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: THE 5x5 BLUEPRINT (5 DIMENSIONS + 5-STEP FRAMEWORK + PYRAMID) -->
+    <!-- ===================================================================== -->
+    <section class="tab-section active" id="tab-blueprint">
+      <div class="hero-banner">
+        <div>
+          <span class="badge badge-blue">Complete 3h 16m Course Companion</span>
+          <h1 class="hero-title">Think, Structure, and Design Systems Like a Senior Engineer</h1>
+          <p class="hero-desc">
+            Unlike coding interviews with fixed inputs and outputs, system design interviews start with intentionally vague prompts and have no single right answer. Master the repeatable <strong>5-Step Framework</strong>, score high across all <strong>5 Evaluation Dimensions</strong>, and explore interactive architectures for <strong>Spotify</strong>, <strong>Booking.com</strong>, and <strong>WhatsApp</strong>.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-action="switchTab" data-args="casestudies">Explore Spotify, Booking.com & WhatsApp →</button>
+            <button class="btn btn-secondary" data-action="switchTab" data-args="workbench">Launch 60-Min Timed Workbench</button>
+            <a class="btn btn-emerald" href="https://www.youtube.com/watch?v=soTfFFIQQ8U" target="_blank" rel="noopener">▶ Watch Reference Video</a>
+          </div>
+        </div>
+
+        <!-- Senior vs Mid-Level Pyramid -->
+        <div class="pyramid-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <span style="font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--accent-blue);">The Senior Engineer Pyramid</span>
+            <span style="font-size:0.72rem; color:var(--text-secondary);">Click any tier to inspect</span>
+          </div>
+          <div class="pyramid-layer pyramid-l1" data-action="showPyramidDetail" data-args="3">
+            <span><strong>Tier 3 (Staff/Senior):</strong> Trade-Offs, Failure Modes & Evolution</span>
+            <span class="badge badge-rose">Top Signal</span>
+          </div>
+          <div class="pyramid-layer pyramid-l2" data-action="showPyramidDetail" data-args="2">
+            <span><strong>Tier 2 (Mid→Senior):</strong> End-to-End Flows, Capacity & Bottlenecks</span>
+            <span class="badge badge-blue">Architecture</span>
+          </div>
+          <div class="pyramid-layer pyramid-l3" data-action="showPyramidDetail" data-args="1">
+            <span><strong>Tier 1 (Foundation):</strong> Building Blocks (APIs, SQL/NoSQL, Cache, CDN, Queues)</span>
+            <span class="badge badge-emerald">Core Blocks</span>
+          </div>
+          <div id="pyramid-detail-box" style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-secondary); background:var(--bg-secondary); padding:0.75rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+            <strong>Why Senior Engineers Stand Out:</strong> As AI handles routine code implementation, companies test whether you understand how distributed components interact, why specific data stores fit specific access patterns, and how systems degrade under failure.
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Ways System Design Shows Up -->
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">How System Design Appears in Interviews (4 Formats)</h2>
+          <p class="section-subtitle">From entry/mid-level discussions to senior/staff architecture rounds (<a href="https://www.youtube.com/watch?v=soTfFFIQQ8U&t=130s" target="_blank" rel="noopener">00:02:10 in video</a>)</p>
+        </div>
+      </div>
+      <div class="grid-4" style="margin-bottom: 2rem;">
+        <div class="card">
+          <div class="card-title"><span>1. Full Whiteboarding</span><span class="badge badge-blue">Most Common</span></div>
+          <p class="card-text">Designing a complete system (like Spotify or WhatsApp) or a core product feature from scratch in 45–60 minutes starting from a 1-sentence prompt.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>2. Bottleneck Diagnosis</span><span class="badge badge-amber">Debugging Scale</span></div>
+          <p class="card-text">Inspecting an existing company architecture diagram under 10x traffic load, spotting single points of failure, and proposing targeted fixes.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>3. Past Project Deep-Dive</span><span class="badge badge-emerald">Experience</span></div>
+          <p class="card-text">Walking through a production system you helped ship—explaining why you picked your database, how components communicated, and what you'd redesign today.</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><span>4. Conceptual Trade-Offs</span><span class="badge badge-purple">Fundamentals</span></div>
+          <p class="card-text">Focused probing on CAP theorem, SQL vs NoSQL isolation levels, WebSockets vs HTTP polling, CDN cache invalidation, and rate limiting placement.</p>
+        </div>
+      </div>
+
+      <!-- The 5 Evaluation Dimensions -->
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">The 5 Dimensions Interviewers Actually Score You On</h2>
+          <p class="section-subtitle">Memorizing diagrams only covers 1 of 5 pillars. Click any dimension to toggle Senior Habits vs Common Red Flags (<a href="https://www.youtube.com/watch?v=soTfFFIQQ8U&t=290s" target="_blank" rel="noopener">00:04:50 in video</a>).</p>
+        </div>
+      </div>
+      <div class="grid-5" style="margin-bottom: 2.25rem;">
+        <div class="card">
+          <div class="card-title"><span style="color:var(--accent-blue);">1. Communication</span></div>
+          <p class="card-text" style="margin-bottom:0.65rem;">Treat the interviewer like a peer engineer solving a problem together—not a silent exam or a non-stop monologue.</p>
+          <div style="font-size:0.78rem; color:var(--accent-emerald); margin-bottom:0.3rem;">✓ Clarify scope & check in after each phase</div>
+          <div style="font-size:0.78rem; color:var(--accent-rose);">✗ Jumping straight into drawing boxes silently</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span style="color:var(--accent-indigo);">2. Structured Thinking</span></div>
+          <p class="card-text" style="margin-bottom:0.65rem;">Break down a vague 1-line prompt into a predictable, ordered sequence of steps so the interviewer always knows where you are.</p>
+          <div style="font-size:0.78rem; color:var(--accent-emerald); margin-bottom:0.3rem;">✓ Follow the 5-step roadmap systematically</div>
+          <div style="font-size:0.78rem; color:var(--accent-rose);">✗ Bouncing randomly between DBs, UI, and sharding</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span style="color:var(--accent-emerald);">3. Technical Judgment</span></div>
+          <p class="card-text" style="margin-bottom:0.65rem;">Justify every component choice (SQL vs Cassandra, Kafka vs Redis Pub/Sub) based on requirements—never out of habit.</p>
+          <div style="font-size:0.78rem; color:var(--accent-emerald); margin-bottom:0.3rem;">✓ State pros, cons & rejected alternatives</div>
+          <div style="font-size:0.78rem; color:var(--accent-rose);">✗ Adding Kafka or sharding for 1,000 users</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span style="color:var(--accent-amber);">4. Practical Depth</span></div>
+          <p class="card-text" style="margin-bottom:0.65rem;">Separates engineers who have shipped real production code from pure theory learners via failure modes & observability.</p>
+          <div style="font-size:0.78rem; color:var(--accent-emerald); margin-bottom:0.3rem;">✓ Discuss fallbacks, multi-AZ, alerts & retries</div>
+          <div style="font-size:0.78rem; color:var(--accent-rose);">✗ Assuming networks and databases never fail</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span style="color:var(--accent-purple);">5. Time Management</span></div>
+          <p class="card-text" style="margin-bottom:0.65rem;">Pace yourself across 45–60 minutes so you don't spend 40 minutes on requirements and run out of time for scaling.</p>
+          <div style="font-size:0.78rem; color:var(--accent-emerald); margin-bottom:0.3rem;">✓ Propose focus areas & track phase budgets</div>
+          <div style="font-size:0.78rem; color:var(--accent-rose);">✗ Optimizing failure modes before core design exists</div>
+        </div>
+      </div>
+
+      <!-- Interactive 5-Step Framework Explorer -->
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Interactive 5-Step System Design Framework (60-Minute Pacing)</h2>
+          <p class="section-subtitle">Select each phase below to inspect its time budget, deliverables, and verbatim interviewer check-in scripts (<a href="https://www.youtube.com/watch?v=soTfFFIQQ8U&t=557s" target="_blank" rel="noopener">00:09:17 in video</a>).</p>
+        </div>
+      </div>
+
+      <div class="step-selector">
+        <button class="step-tab active" data-action="selectFrameworkStep" data-args="0" id="fstep-0">
+          <div class="step-num"><span>Step 1</span><span>5–10 Min</span></div>
+          <div class="step-name">Clarify Requirements & Capacity</div>
+        </button>
+        <button class="step-tab" data-action="selectFrameworkStep" data-args="1" id="fstep-1">
+          <div class="step-num"><span>Step 2</span><span>15–20 Min</span></div>
+          <div class="step-name">Data Model & API Contracts</div>
+        </button>
+        <button class="step-tab" data-action="selectFrameworkStep" data-args="2" id="fstep-2">
+          <div class="step-num"><span>Step 3</span><span>15–20 Min</span></div>
+          <div class="step-name">High-Level Architecture & Flows</div>
+        </button>
+        <button class="step-tab" data-action="selectFrameworkStep" data-args="3" id="fstep-3">
+          <div class="step-num"><span>Step 4</span><span>5–10 Min</span></div>
+          <div class="step-name">Scale, Bottlenecks & Reliability</div>
+        </button>
+        <button class="step-tab" data-action="selectFrameworkStep" data-args="4" id="fstep-4">
+          <div class="step-num"><span>Step 5</span><span>5 Min</span></div>
+          <div class="step-name">Trade-Offs & Future Extensions</div>
+        </button>
+      </div>
+
+      <div class="step-detail-panel" id="framework-detail-panel">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 2: PRODUCTION CASE STUDIES (SPOTIFY, BOOKING.COM, WHATSAPP)       -->
+    <!-- ===================================================================== -->
+    <section class="tab-section" id="tab-casestudies">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Production System Case Studies from Scratch</h2>
+          <p class="section-subtitle">Walk through the exact three production architectures built in the course, with interactive flow simulators and scaling toggles.</p>
+        </div>
+      </div>
+
+      <div class="case-switcher">
+        <button class="case-btn active-spotify" id="case-btn-spotify" data-action="selectCaseStudy" data-args="spotify">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+            <span style="font-weight:800; font-size:1.05rem;">1. Spotify (Music Streaming)</span>
+            <span class="badge badge-emerald">00:23:50</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-secondary);">Blob storage (S3), Signed URLs, HTTP Range Requests, SQL metadata, CDN & scaling 500K → 50M users / 600TB audio.</div>
+        </button>
+
+        <button class="case-btn" id="case-btn-booking" data-action="selectCaseStudy" data-args="booking">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+            <span style="font-weight:800; font-size:1.05rem;">2. Booking.com (Hotel Reservations)</span>
+            <span class="badge badge-amber">Concurrency</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-secondary);">Preventing double bookings, strong vs eventual consistency, optimistic/pessimistic locking, Elasticsearch discovery & dynamic pricing.</div>
+        </button>
+
+        <button class="case-btn" id="case-btn-whatsapp" data-action="selectCaseStudy" data-args="whatsapp">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+            <span style="font-weight:800; font-size:1.05rem;">3. WhatsApp (Real-Time Chat)</span>
+            <span class="badge badge-blue">Real-Time</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-secondary);">Stateful WebSockets vs HTTP polling, Chat Servers, Kafka queues, Cassandra storage, Presence service & Feature Flag version stripping.</div>
+        </button>
+      </div>
+
+      <!-- CASE STUDY 1: SPOTIFY -->
+      <div id="case-panel-spotify">
+        <div class="arch-canvas">
+          <div class="arch-toolbar">
+            <div>
+              <span class="badge badge-emerald">Interactive Architecture</span>
+              <strong style="margin-left:0.5rem; font-size:1.05rem;">Spotify Audio Streaming & Metadata Architecture</strong>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="btn btn-secondary" id="spotify-scale-btn" data-action="toggleSpotifyScale">Scale Mode: Baseline (500K Users / 90TB)</button>
+              <button class="btn btn-primary" data-action="simulateSpotifyFlow" data-args="read">▶ Simulate Read (Play Song)</button>
+              <button class="btn btn-emerald" data-action="simulateSpotifyFlow" data-args="write">▲ Simulate Write (Artist Upload)</button>
+            </div>
+          </div>
+
+          <div class="arch-nodes-grid" id="spotify-nodes">
+            <div class="arch-node" id="sp-node-client" data-action="inspectNode" data-args="spotify, client">
+              <div class="arch-node-type">Client App</div>
+              <div class="arch-node-title">Mobile / Desktop</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Chunked Range Player</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node scaled-only" id="sp-node-cdn" data-action="inspectNode" data-args="spotify, cdn" style="display:none;">
+              <div class="arch-node-type">Edge Cache (50M Scale)</div>
+              <div class="arch-node-title">Global CDN</div>
+              <div style="font-size:0.72rem; color:var(--accent-purple);">Caches Top 20% Hits</div>
+            </div>
+            <div class="arch-node" id="sp-node-lb" data-action="inspectNode" data-args="spotify, lb">
+              <div class="arch-node-type">Front Door</div>
+              <div class="arch-node-title">API Gateway & LB</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Rate Limit + Routing</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="sp-node-api" data-action="inspectNode" data-args="spotify, api">
+              <div class="arch-node-type">Stateless Compute</div>
+              <div class="arch-node-title">API Servers</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">JWT Auth + Signed URLs</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node scaled-only" id="sp-node-redis" data-action="inspectNode" data-args="spotify, redis" style="display:none;">
+              <div class="arch-node-type">In-Memory (50M Scale)</div>
+              <div class="arch-node-title">Redis Cache</div>
+              <div style="font-size:0.72rem; color:var(--accent-purple);">Hot Metadata & Playlists</div>
+            </div>
+            <div class="arch-node" id="sp-node-sql" data-action="inspectNode" data-args="spotify, sql">
+              <div class="arch-node-type">Relational DB</div>
+              <div class="arch-node-title" id="sp-sql-title">SQL Database</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Users, Songs, Playlists</div>
+            </div>
+            <span class="arch-arrow">+</span>
+            <div class="arch-node" id="sp-node-s3" data-action="inspectNode" data-args="spotify, s3">
+              <div class="arch-node-type">Object Storage</div>
+              <div class="arch-node-title" id="sp-s3-title">AWS S3 Blob Store</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">OGG Audio (~3MB/song)</div>
+            </div>
+          </div>
+
+          <div class="flow-log-box" id="spotify-flow-log">
+            <strong>Interactive Walkthrough:</strong> Click <em>"Simulate Read (Play Song)"</em>, <em>"Simulate Write (Artist Upload)"</em>, or toggle <em>"50M Users Scale Mode"</em> above to trace how requests move across components.
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span>Capacity Estimations: 500K vs 50M Users</span><span class="badge badge-emerald">Course Math</span></div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Baseline (500K Users)</th>
+                  <th>Scaled (50M Users)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Catalog Size</strong></td>
+                  <td>30 Million Songs</td>
+                  <td>200 Million Songs</td>
+                </tr>
+                <tr>
+                  <td><strong>Audio Storage (3MB OGG)</strong></td>
+                  <td>90 TB (180–270 TB w/ replicas)</td>
+                  <td><strong>600 TB</strong> (1.2–1.8 PB w/ replicas)</td>
+                </tr>
+                <tr>
+                  <td><strong>Song Metadata (100 B/song)</strong></td>
+                  <td>3 GB</td>
+                  <td><strong>20 GB</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>User Metadata (1 KB/user)</strong></td>
+                  <td>500 MB</td>
+                  <td><strong>50 GB</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>SQL Schema, Indexing & REST API Contracts</span><span class="badge badge-blue">Data & API</span></div>
+            <pre class="code-block">-- Relational Schema & Composite Indexing (PostgreSQL)
+CREATE TABLE songs (
+  song_id UUID PRIMARY KEY,
+  title VARCHAR(255), artist_id UUID,
+  duration_sec INT, audio_s3_key TEXT
+);
+CREATE TABLE playlist_items (
+  playlist_id UUID, song_id UUID, added_at TIMESTAMP,
+  PRIMARY KEY (playlist_id, song_id)
+);
+-- Speeds up fetching songs in a playlist OR playlists containing a song:
+CREATE INDEX idx_playlist_item ON playlist_items(playlist_id, song_id);
+
+-- Core API Endpoints:
+GET  /v1/songs/{id}          -> Returns Song Metadata + Expiring Signed S3/CDN URL
+GET  <signed_s3_url>         -> Header: Range: bytes=0-524287 (206 Partial Content)
+POST /v1/songs               -> Artist uploads metadata + presigned S3 upload</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASE STUDY 2: BOOKING.COM -->
+      <div id="case-panel-booking" style="display:none;">
+        <div class="arch-canvas">
+          <div class="arch-toolbar">
+            <div>
+              <span class="badge badge-amber">Concurrency & Consistency</span>
+              <strong style="margin-left:0.5rem; font-size:1.05rem;">Booking.com Double-Booking Concurrency Simulator</strong>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="btn btn-secondary" data-action="runBookingSim" data-args="naive">1. Test Naive Select-Then-Insert (Fails)</button>
+              <button class="btn btn-primary" data-action="runBookingSim" data-args="pessimistic">2. Test Pessimistic Lock (FOR UPDATE)</button>
+              <button class="btn btn-emerald" data-action="runBookingSim" data-args="optimistic">3. Test Optimistic Version + Hold TTL</button>
+            </div>
+          </div>
+
+          <div class="arch-nodes-grid">
+            <div class="arch-node" id="bk-node-users">
+              <div class="arch-node-type">Concurrent Traffic</div>
+              <div class="arch-node-title">User A & User B</div>
+              <div style="font-size:0.72rem; color:var(--accent-amber);">Both click "Book Last Room"</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="bk-node-gw">
+              <div class="arch-node-type">Entry Layer</div>
+              <div class="arch-node-title">API Gateway</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Rate Limit + Auth</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="bk-node-search">
+              <div class="arch-node-type">Read Path (AP)</div>
+              <div class="arch-node-title">Search + Elasticsearch</div>
+              <div style="font-size:0.72rem; color:var(--accent-blue);">Eventual Consistency OK</div>
+            </div>
+            <span class="arch-arrow">/</span>
+            <div class="arch-node" id="bk-node-book">
+              <div class="arch-node-type">Write Path (CP)</div>
+              <div class="arch-node-title">Booking Service</div>
+              <div style="font-size:0.72rem; color:var(--accent-emerald);">Strong Consistency + Hold</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="bk-node-db">
+              <div class="arch-node-type">ACID Relational DB</div>
+              <div class="arch-node-title">PostgreSQL Primary</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Row Locks / Version Check</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="bk-node-pay">
+              <div class="arch-node-type">External Payment</div>
+              <div class="arch-node-title">Payment Service</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Idempotency Key</div>
+            </div>
+          </div>
+
+          <div class="flow-log-box" id="booking-flow-log">
+            <strong>Why Double Bookings Happen:</strong> In a hotel reservation system, two users frequently attempt to book the exact same last room for the same dates at the same millisecond. Click the 3 buttons above to compare how a naive query fails versus senior concurrency controls.
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span>CAP Theorem Split: Read Path vs Write Path</span><span class="badge badge-amber">Technical Judgment</span></div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Path</th>
+                  <th>Consistency Model</th>
+                  <th>Architecture & Rationale</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Search & Discovery</strong><br><span style="font-size:0.75rem; color:var(--text-secondary);">(100x Read Volume)</span></td>
+                  <td><span class="badge badge-blue">Eventual Consistency</span></td>
+                  <td>Backed by <strong>Elasticsearch</strong> + <strong>Redis Cache</strong>. If room count is stale by 2 seconds during browsing, it is acceptable for speed.</td>
+                </tr>
+                <tr>
+                  <td><strong>Reservation & Checkout</strong><br><span style="font-size:0.75rem; color:var(--text-secondary);">(Critical Write Path)</span></td>
+                  <td><span class="badge badge-emerald">Strong Consistency (ACID)</span></td>
+                  <td>Backed by <strong>SQL Database (PostgreSQL)</strong>. Preventing two reservations for the same room on the same dates is non-negotiable.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>Preventing Double Bookings in SQL</span><span class="badge badge-emerald">Practical Depth</span></div>
+            <pre class="code-block">-- 1. Naive Approach (BROKEN under concurrency):
+SELECT available_count FROM room_inventory WHERE room_type_id = 42 AND date = '2026-12-24';
+-- Both User A & User B read available_count = 1 simultaneously!
+INSERT INTO bookings ... -- Result: DOUBLE BOOKING & costly refund!
+
+-- 2. Optimistic Concurrency Control (Atomic Conditional Update):
+UPDATE room_inventory
+SET available_count = available_count - 1, version = version + 1
+WHERE room_type_id = 42 AND date = '2026-12-24'
+  AND version = 7 AND available_count > 0;
+-- Only 1 transaction affects 1 row; the second affects 0 rows and fails cleanly.</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASE STUDY 3: WHATSAPP -->
+      <div id="case-panel-whatsapp" style="display:none;">
+        <div class="arch-canvas">
+          <div class="arch-toolbar">
+            <div>
+              <span class="badge badge-blue">Real-Time Stateful Routing</span>
+              <strong style="margin-left:0.5rem; font-size:1.05rem;">WhatsApp Real-Time Messaging & Feature Flag Architecture</strong>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="btn btn-primary" data-action="runWhatsappSim" data-args="online">▶ Send Message (Recipient Online via WebSocket)</button>
+              <button class="btn btn-secondary" data-action="runWhatsappSim" data-args="offline">▶ Send Message (Recipient Offline → Push)</button>
+              <button class="btn btn-emerald" data-action="runWhatsappSim" data-args="featureflag">⚙ Test Feature Flag Rollout (v2.2 vs v1.9)</button>
+            </div>
+          </div>
+
+          <div class="arch-nodes-grid">
+            <div class="arch-node" id="wa-node-sender">
+              <div class="arch-node-type">Client A</div>
+              <div class="arch-node-title">Sender App</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Persistent WebSocket</div>
+            </div>
+            <span class="arch-arrow">↔</span>
+            <div class="arch-node" id="wa-node-chat">
+              <div class="arch-node-type">Stateful Tier</div>
+              <div class="arch-node-title">Chat Servers</div>
+              <div style="font-size:0.72rem; color:var(--accent-blue);">Holds Open TCP/WS Conns</div>
+            </div>
+            <span class="arch-arrow">↔</span>
+            <div class="arch-node" id="wa-node-flags">
+              <div class="arch-node-type">Gradual Rollout</div>
+              <div class="arch-node-title">Feature Flag Store</div>
+              <div style="font-size:0.72rem; color:var(--accent-purple);">20% Cohort / v2.2 Check</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="wa-node-kafka">
+              <div class="arch-node-type">Async Event Bus</div>
+              <div class="arch-node-title">Kafka Broker</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">Group Fan-out & Buffering</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="wa-node-db">
+              <div class="arch-node-type">Wide-Column NoSQL</div>
+              <div class="arch-node-title">Cassandra DB</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">High Write Throughput</div>
+            </div>
+            <span class="arch-arrow">→</span>
+            <div class="arch-node" id="wa-node-recipient">
+              <div class="arch-node-type">Client B</div>
+              <div class="arch-node-title">Recipient / Push</div>
+              <div style="font-size:0.72rem; color:var(--text-secondary);">WS Delivery or APNs/FCM</div>
+            </div>
+          </div>
+
+          <div class="flow-log-box" id="whatsapp-flow-log">
+            <strong>Interactive Walkthrough:</strong> Click any simulation button above to inspect how stateful Chat Servers route real-time WebSocket frames, handle offline queues via Kafka, and strip unsupported payload fields for older client versions (<a href="https://www.youtube.com/watch?v=soTfFFIQQ8U&t=11577s" target="_blank" rel="noopener">03:12:57 in video</a>).
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span>Protocol Trade-Offs: WebSockets vs HTTP Polling</span><span class="badge badge-blue">03:14:49</span></div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Protocol</th>
+                  <th>Memory & State</th>
+                  <th>Latency & Best Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>HTTP Short Polling</strong></td>
+                  <td>Stateless, low server RAM per idle user</td>
+                  <td>High latency & wasted empty requests; suited for simple status checks.</td>
+                </tr>
+                <tr>
+                  <td><strong>HTTP Long Polling</strong></td>
+                  <td>Holds request open until data arrives</td>
+                  <td>Medium latency; fallback when firewalls block WebSockets.</td>
+                </tr>
+                <tr>
+                  <td><strong>WebSockets (Chosen)</strong></td>
+                  <td>Stateful; consumes more RAM per open connection</td>
+                  <td><strong>Sub-50ms bidirectional delivery</strong>; worth the memory cost for real-time chat.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>Gradual Rollout & Backward-Compatible Feature Flags</span><span class="badge badge-purple">03:12:57</span></div>
+            <pre class="code-block">// Chat Server Feature Flag & Version Stripping Logic (03:12:57 in Course)
+function deliverMessageToClient(message, recipientClient) {
+  const enabledFlags = featureFlagStore.getFlagsForUser(recipientClient.userId); // e.g., 20% rollout
+  const payload = { ...message };
+
+  // Strip unsupported fields for client apps below version 2.2
+  if (recipientClient.appVersion < 2.2 || !enabledFlags.includes("message_reactions_v2")) {
+    delete payload.reactionsMetadata;
+    delete payload.interactivePoll;
+  }
+  recipientClient.websocket.send(JSON.stringify(payload));
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 3: INTERACTIVE BACK-OF-THE-ENVELOPE CAPACITY CALCULATOR           -->
+    <!-- ===================================================================== -->
+    <section class="tab-section" id="tab-calculator">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Back-of-the-Envelope Capacity & Storage Estimator</h2>
+          <p class="section-subtitle">Practice the exact estimation math taught in the course (<a href="https://www.youtube.com/watch?v=soTfFFIQQ8U&t=1629s" target="_blank" rel="noopener">00:27:09</a> & <a href="https://www.youtube.com/watch?v=soTfFFIQQ8U&t=11630s" target="_blank" rel="noopener">03:13:50</a>) to justify when you need S3, Read Replicas, Caching, or Sharding.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" data-action="loadCalcPreset" data-args="spotify_mvp">Preset: Spotify MVP (500K Users)</button>
+          <button class="btn btn-emerald" data-action="loadCalcPreset" data-args="spotify_50m">Preset: Spotify Scaled (50M Users)</button>
+          <button class="btn btn-secondary" data-action="loadCalcPreset" data-args="booking">Preset: Booking.com</button>
+          <button class="btn btn-secondary" data-action="loadCalcPreset" data-args="whatsapp">Preset: WhatsApp</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Sliders Panel -->
+        <div class="card">
+          <div class="card-title"><span>Input System Assumptions</span><span class="badge badge-blue">Interactive Inputs</span></div>
+
+          <div class="calc-input-group">
+            <div class="calc-label">
+              <span>Total Active Users</span>
+              <span id="lbl-users" style="color:var(--accent-blue); font-family:var(--font-mono);">50,000,000</span>
+            </div>
+            <input type="range" class="calc-slider" id="inp-users" min="100000" max="200000000" step="100000" value="50000000" />
+          </div>
+
+          <div class="calc-input-group">
+            <div class="calc-label">
+              <span>User Profile / Metadata Size (Bytes per user)</span>
+              <span id="lbl-user-bytes" style="color:var(--accent-blue); font-family:var(--font-mono);">1,000 B (1 KB)</span>
+            </div>
+            <input type="range" class="calc-slider" id="inp-user-bytes" min="100" max="10000" step="100" value="1000" />
+          </div>
+
+          <div class="calc-input-group">
+            <div class="calc-label">
+              <span>Total Catalog / Media Records (Songs, Rooms, or Messages/day)</span>
+              <span id="lbl-items" style="color:var(--accent-blue); font-family:var(--font-mono);">200,000,000</span>
+            </div>
+            <input type="range" class="calc-slider" id="inp-items" min="1000000" max="500000000" step="1000000" value="200000000" />
+          </div>
+
+          <div class="calc-input-group">
+            <div class="calc-label">
+              <span>Record Metadata Size (Bytes per item in SQL/NoSQL)</span>
+              <span id="lbl-item-meta" style="color:var(--accent-blue); font-family:var(--font-mono);">100 B</span>
+            </div>
+            <input type="range" class="calc-slider" id="inp-item-meta" min="50" max="2000" step="50" value="100" />
+          </div>
+
+          <div class="calc-input-group">
+            <div class="calc-label">
+              <span>Average Media / Blob File Size (MB per item)</span>
+              <span id="lbl-blob-mb" style="color:var(--accent-blue); font-family:var(--font-mono);">3.0 MB</span>
+            </div>
+            <input type="range" class="calc-slider" id="inp-blob-mb" min="0" max="15" step="0.5" value="3" />
+          </div>
+
+          <div class="calc-input-group">
+            <div class="calc-label">
+              <span>Replication & Versioning Multiplier (Multi-AZ + Re-uploads)</span>
+              <span id="lbl-rep" style="color:var(--accent-blue); font-family:var(--font-mono);">2.5x</span>
+            </div>
+            <input type="range" class="calc-slider" id="inp-rep" min="1" max="4" step="0.5" value="2.5" />
+          </div>
+        </div>
+
+        <!-- Results & Architectural Recommendations -->
+        <div>
+          <div class="grid-2" style="margin-bottom: 1.25rem;">
+            <div class="metric-stat">
+              <div style="font-size:0.75rem; color:var(--text-secondary); text-transform:uppercase;">User Metadata Storage</div>
+              <div class="metric-val" id="out-user-storage">50.0 GB</div>
+              <div style="font-size:0.76rem; color:var(--text-secondary);">Fits comfortably in single SQL DB</div>
+            </div>
+            <div class="metric-stat">
+              <div style="font-size:0.75rem; color:var(--text-secondary); text-transform:uppercase;">Item Metadata Storage</div>
+              <div class="metric-val" id="out-item-storage">20.0 GB</div>
+              <div style="font-size:0.76rem; color:var(--text-secondary);">Indexed relational / NoSQL tables</div>
+            </div>
+            <div class="metric-stat">
+              <div style="font-size:0.75rem; color:var(--text-secondary); text-transform:uppercase;">Raw Media / Blob Storage</div>
+              <div class="metric-val" id="out-blob-raw" style="color:var(--accent-emerald);">600.0 TB</div>
+              <div style="font-size:0.76rem; color:var(--text-secondary);">Before replication & versioning</div>
+            </div>
+            <div class="metric-stat">
+              <div style="font-size:0.75rem; color:var(--text-secondary); text-transform:uppercase;">Total Provisioned Blob Storage</div>
+              <div class="metric-val" id="out-blob-total" style="color:var(--accent-amber);">1.50 PB</div>
+              <div style="font-size:0.76rem; color:var(--text-secondary);">Includes multi-region & artist re-uploads</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>Automated Senior Architecture Recommendations</span><span class="badge badge-emerald">Driven by Numbers</span></div>
+            <div id="calc-recommendations" style="font-size:0.86rem; color:var(--text-secondary); line-height:1.65;">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 4: MOCK INTERVIEW WORKBENCH & PHASE-AWARE TIMER                   -->
+    <!-- ===================================================================== -->
+    <section class="tab-section" id="tab-workbench">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">60-Minute Mock Interview Workbench & Pacing Timer</h2>
+          <p class="section-subtitle">Practice structuring your design under realistic time constraints and export your architecture notes as Markdown.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+          <select id="wb-prompt-select" class="btn btn-secondary">
+            <option value="spotify">Prompt: Design Spotify (Music Streaming)</option>
+            <option value="booking">Prompt: Design Booking.com (Hotel Reservation)</option>
+            <option value="whatsapp">Prompt: Design WhatsApp (Real-Time Messaging)</option>
+            <option value="custom">Prompt: Custom System Design Problem</option>
+          </select>
+          <button class="btn btn-secondary" data-action="resetWorkbenchNotes">↺ Reset to Template</button>
+          <button class="btn btn-emerald" data-action="exportWorkbenchNotes">⬇ Export Notes (.md)</button>
+        </div>
+      </div>
+
+      <!-- Timer Bar -->
+      <div class="card" style="margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary);">Current Recommended Interview Phase</div>
+          <div id="wb-current-phase" style="font-size:1.15rem; font-weight:700; color:var(--accent-blue);">Phase 1: Clarify Functional & Non-Functional Requirements (Min 0–10)</div>
+          <div id="wb-phase-hint" style="font-size:0.82rem; color:var(--text-secondary);">Lock in core use cases, out-of-scope items, user scale, and back-of-the-envelope storage before drawing boxes.</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="timer-display" id="wb-timer">60:00</div>
+          <div style="display:flex; gap:0.45rem;">
+            <button class="btn btn-primary" id="wb-start-btn" data-action="toggleTimer">Start Timer</button>
+            <button class="btn btn-secondary" data-action="resetTimer" data-args="60">60m</button>
+            <button class="btn btn-secondary" data-action="resetTimer" data-args="45">45m</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Left: Structured 5-Step Scratchpad -->
+        <div class="card">
+          <div class="card-title"><span>Structured 5-Step Design Canvas</span><span class="badge badge-blue" id="wb-save-status">Auto-Saved Locally</span></div>
+
+          <div style="margin-bottom:0.9rem;">
+            <label style="font-size:0.82rem; font-weight:600; color:var(--accent-blue);">Step 1: Functional & Non-Functional Requirements + Capacity Math (5–10m)</label>
+            <textarea class="workbench-textarea" id="wb-step1" placeholder="• Functional (In Scope / Out of Scope):&#10;• Non-Functional (Consistency vs Availability, Latency, Scale):&#10;• Back-of-the-envelope storage & QPS:"></textarea>
+          </div>
+
+          <div style="margin-bottom:0.9rem;">
+            <label style="font-size:0.82rem; font-weight:600; color:var(--accent-indigo);">Step 2: Data Model, Storage Choice & API Contracts (15–20m)</label>
+            <textarea class="workbench-textarea" id="wb-step2" placeholder="• Database choice (SQL vs NoSQL +Blob storage) & WHY:&#10;• Core schema & indexes:&#10;• REST API endpoints (GET/POST, auth, pagination, rate limiting):"></textarea>
+          </div>
+
+          <div style="margin-bottom:0.9rem;">
+            <label style="font-size:0.82rem; font-weight:600; color:var(--accent-emerald);">Step 3: High-Level Architecture & Read/Write Workflows (15–20m)</label>
+            <textarea class="workbench-textarea" id="wb-step3" placeholder="• Core components (Client -> API Gateway/LB -> API Server -> DB/Cache/S3):&#10;• Step-by-step Read Flow:&#10;• Step-by-step Write Flow:"></textarea>
+          </div>
+
+          <div style="margin-bottom:0.9rem;">
+            <label style="font-size:0.82rem; font-weight:600; color:var(--accent-amber);">Step 4 & 5: Bottlenecks, Failure Modes, Trade-Offs & Extensions (10–15m)</label>
+            <textarea class="workbench-textarea" id="wb-step4" placeholder="• Scaling bottlenecks (CDN, Redis cache, DB read replicas/sharding, Kafka):&#10;• Failure handling, multi-AZ redundancy & monitoring/alerts:&#10;• Key trade-offs & future extensions:"></textarea>
+          </div>
+        </div>
+
+        <!-- Right: 5-Dimension Self-Evaluation Rubric -->
+        <div class="card">
+          <div class="card-title"><span>Live 5-Dimension Self-Evaluation Checklist</span><span class="badge badge-emerald" id="wb-rubric-score">0 / 10 Checked</span></div>
+          <p class="card-text" style="margin-bottom:1rem;">Verify that your design covers every signal interviewers score across the 5 pillars:</p>
+
+          <div style="margin-bottom:1rem;">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent-blue); margin-bottom:0.4rem;">1. Communication & Collaboration</div>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Clarified functional scope and explicitly stated what is out of scope before designing.</label>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Checked in with the interviewer at the end of requirements ("Does this scope make sense?").</label>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent-indigo); margin-bottom:0.4rem;">2. Structured Thinking</div>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Started with a simple baseline architecture (thousands of users) before adding complex scaling tiers.</label>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Traced both the Read workflow and Write workflow end-to-end from client to storage.</label>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent-emerald); margin-bottom:0.4rem;">3. Technical Judgment</div>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Justified SQL vs NoSQL/Blob storage based on data structure and consistency requirements (CAP).</label>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Explained at least one alternative approach considered and why it was rejected (trade-offs).</label>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent-amber); margin-bottom:0.4rem;">4. Practical Depth</div>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Addressed authentication (JWT), API Gateway rate limiting, and security (e.g., Signed URLs).</label>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Identified single points of failure, multi-AZ replication, fallback paths, and monitoring alerts.</label>
+          </div>
+
+          <div>
+            <div style="font-size:0.8rem; font-weight:700; color:var(--accent-purple); margin-bottom:0.4rem;">5. Time Management</div>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Completed back-of-the-envelope storage/traffic estimates in under 10 minutes.</label>
+            <label class="checklist-item"><input type="checkbox" class="wb-check" /> Saved 5–10 minutes at the end for scaling bottlenecks, failure modes, and future extensions.</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 5: TRADE-OFF ARENA & SCENARIO QUIZ                                -->
+    <!-- ===================================================================== -->
+    <section class="tab-section" id="tab-quiz">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Senior Trade-Off Arena & Scenario Quiz</h2>
+          <p class="section-subtitle">Test your technical judgment on real scenarios directly from the course.</p>
+        </div>
+        <div>
+          <span class="badge badge-emerald" id="quiz-score-badge" style="font-size:0.85rem; padding:0.45rem 0.9rem;">Score: 0 / 8 Answered</span>
+          <button class="btn btn-secondary" data-action="resetQuiz" style="margin-left:0.5rem;">Reset Quiz</button>
+        </div>
+      </div>
+
+      <div id="quiz-container" class="grid-2">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    Built as an interactive study companion for <a href="https://www.youtube.com/watch?v=soTfFFIQQ8U" target="_blank" rel="noopener">Design Software Systems Like a Senior Engineer – Complete Course</a> by Hayk Simonyan on <a href="https://www.freecodecamp.org/news/learn-how-to-design-software-systems-like-a-senior-engineer-in-our-new-course/" target="_blank" rel="noopener">freeCodeCamp.org</a>.
+    <span class="footer-sep">·</span> Progress is saved in this browser. <button class="link-btn" data-action="resetProgress">Reset all progress</button>
+  </footer>
+
+</body>
+</html>
