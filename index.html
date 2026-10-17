@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>SysDesign Studio — Senior Engineer System Design Interview Prep</title>
   <meta name="description" content="Interactive study companion for system design interviews: the 5-step framework, Spotify / Booking.com / WhatsApp case studies, a capacity calculator, a timed mock-interview workbench and a trade-off quiz." />
   <meta name="theme-color" content="#0b0f19" />
@@ -24,12 +24,12 @@
       </div>
     </div>
 
-    <nav class="nav-tabs" role="tablist">
-      <button class="nav-btn active" role="tab" aria-selected="true" data-action="switchTab" data-args="blueprint" id="tab-btn-blueprint">1. 5×5 Blueprint</button>
-      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="casestudies" id="tab-btn-casestudies">2. Production Case Studies</button>
-      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="calculator" id="tab-btn-calculator">3. Capacity Calculator</button>
-      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="workbench" id="tab-btn-workbench">4. Mock Interview Workbench</button>
-      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="quiz" id="tab-btn-quiz">5. Trade-Off Arena & Quiz</button>
+    <nav class="nav-tabs" role="tablist" aria-label="Sections">
+      <button class="nav-btn active" role="tab" aria-selected="true" data-action="switchTab" data-args="blueprint" id="tab-btn-blueprint" aria-label="5×5 Blueprint"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="m2 13 10 5 10-5"/></svg><span class="nav-label-long">1. 5×5 Blueprint</span><span class="nav-label-short" aria-hidden="true">Blueprint</span></button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="casestudies" id="tab-btn-casestudies" aria-label="Production Case Studies"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg><span class="nav-label-long">2. Production Case Studies</span><span class="nav-label-short" aria-hidden="true">Cases</span></button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="calculator" id="tab-btn-calculator" aria-label="Capacity Calculator"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8 6.5h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 18.5h.01M12 18.5h.01M16 18.5h.01"/></svg><span class="nav-label-long">3. Capacity Calculator</span><span class="nav-label-short" aria-hidden="true">Calculator</span></button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="workbench" id="tab-btn-workbench" aria-label="Mock Interview Workbench"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg><span class="nav-label-long">4. Mock Interview Workbench</span><span class="nav-label-short" aria-hidden="true">Mock</span></button>
+      <button class="nav-btn" role="tab" aria-selected="false" data-action="switchTab" data-args="quiz" id="tab-btn-quiz" aria-label="Trade-Off Arena &amp; Quiz"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span class="nav-label-long">5. Trade-Off Arena &amp; Quiz</span><span class="nav-label-short" aria-hidden="true">Quiz</span></button>
     </nav>
 
     <div class="progress-pill" title="Your interactive prep mastery score">

@@ -17,7 +17,6 @@ function showTab(tabId, { scroll = true } = {}) {
     const btn = document.getElementById('tab-btn-' + id);
     btn.classList.toggle('active', isActive);
     btn.setAttribute('aria-selected', String(isActive));
-    if (isActive) btn.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   });
   markVisited(tabId);
   if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });

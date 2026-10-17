@@ -838,3 +838,80 @@ textarea:focus-visible,
   .section-header > * { min-width: 0; max-width: 100%; }
   #wb-prompt-select { width: 100%; }
 }
+
+/* ---- Navigation: top tabs on desktop, fixed bottom tab bar on phones ---- */
+.nav-icon {
+  display: none;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-label-short { display: none; }
+
+/* Tablets: full labels don't fit, so use icons + short labels across the full header width. */
+@media (min-width: 681px) and (max-width: 1100px) {
+  nav.nav-tabs {
+    order: 3;
+    flex: 1 1 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    overflow: visible;
+  }
+
+  .nav-btn { justify-content: center; }
+  .nav-icon { display: block; width: 18px; height: 18px; }
+  .nav-label-short { display: inline; }
+  .nav-label-long { display: none; }
+}
+
+@media (max-width: 680px) {
+  /* backdrop-filter would make the header the containing block for the fixed nav. */
+  header.topbar {
+    backdrop-filter: none;
+    background: var(--bg-primary);
+  }
+
+  nav.nav-tabs {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    padding: 0.35rem 0.25rem calc(0.35rem + env(safe-area-inset-bottom));
+    border: none;
+    border-top: 1px solid var(--border-color);
+    border-radius: 0;
+    background: rgba(17, 24, 39, 0.97);
+    overflow: visible;
+  }
+
+  .nav-btn {
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.4rem 0.1rem;
+    font-size: 0.68rem;
+    min-height: 52px;
+    justify-content: center;
+  }
+
+  .nav-btn.active {
+    background: rgba(99, 102, 241, 0.16);
+    color: var(--accent-blue);
+    box-shadow: none;
+  }
+
+  .nav-icon,
+  .nav-label-short { display: block; }
+  .nav-label-long { display: none; }
+
+  /* Keep page content and the footer clear of the bar. */
+  body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+}
